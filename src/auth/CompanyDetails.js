@@ -31,6 +31,10 @@ function CompanyDetails({ navigation }) {
     navigation.goBack()
   }
 
+  const goToDashboard = () => {
+    navigation.navigate('Dashboard')
+  }
+
   return (
     <>
       <Header title={'Fill in your company details'}
@@ -69,7 +73,7 @@ function CompanyDetails({ navigation }) {
         />
       </View>
 
-      <Button title={'Register Company'} />
+      <Button title={'Register Company'} onPress={()=> goToDashboard()}/>
 
       {show && (
         <DateTimePicker

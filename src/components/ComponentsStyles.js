@@ -10,9 +10,9 @@ export default StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: 'white'
     },
-    icon: {
+    passwordIcon: {
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     headerContainer: {
         marginHorizontal: 15,

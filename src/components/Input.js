@@ -12,6 +12,7 @@ function Input(props) {
         showIcon,
         secureTextEntry,
         numberOfLines,
+        value,
         icon } = props
 
     return (
@@ -20,13 +21,14 @@ function Input(props) {
                 placeholder={placeholder}
                 secureTextEntry={!secureTextEntry}
                 style={customInputStyle}
+                value={value}
                 numberOfLines={numberOfLines}
             />
 
             {icon && <Icon name={"search"} color="grey" size={25} />}
 
 
-            {showIcon && <TouchableOpacity style={Styles.icon}
+            {showIcon && <TouchableOpacity style={Styles.passwordIcon}
                 onPress={setShowPassword}>
 
                 <Icon name={showPassword ? "eye-outline" : "eye-off-outline"}

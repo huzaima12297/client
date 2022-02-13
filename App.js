@@ -7,27 +7,62 @@ import Login from './src/auth/Login'
 import Signup from './src/auth/Signup'
 import Verification from './src/auth/Verification'
 import CompanyDetails from './src/auth/CompanyDetails'
+import Dashboard from './src/dashboard/Dashboard'
+import EDitCompanyProfile from './src/more/EDitCompanyProfile';
+import { LogBox } from 'react-native';
+import BusinessInfo from './src/more/BusinessInfo';
+import PersonalList from './src/more/PersonalList';
+import AddService from './src/more/AddService';
+import Profile from './src/more/Profile'
+import ChangePassword from './src/more/ChangePassword';
+import Notification from './src/more/Notification';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
+  LogBox.ignoreAllLogs();//Ignore all log notifications
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen screenOptions={{headerShown: false}}
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="Home" component={onBoarding} />
 
-        <Stack.Screen screenOptions={{headerShown: false}}
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="Login" component={Login} />
 
-        <Stack.Screen screenOptions={{headerShown: false}}
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="Signup" component={Signup} />
 
-        <Stack.Screen screenOptions={{headerShown: false}}
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="Verification" component={Verification} />
 
-        <Stack.Screen screenOptions={{headerShown: false}}
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="CompanyDetails" component={CompanyDetails} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="Dashboard" component={Dashboard} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="BusinessInfo" component={BusinessInfo} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="EDitCompanyProfile" component={EDitCompanyProfile} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="PersonalList" component={PersonalList} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="AddService" component={AddService} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="Profile" component={Profile} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="ChangePassword" component={ChangePassword} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="Notification" component={Notification} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
