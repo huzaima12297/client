@@ -101,7 +101,7 @@ function Director() {
         <>
             <View style={styles.view}>
                 <Text style={{ color: 'black', fontSize: 16, fontWeight: "600", flex: 1 }}>
-                    Persoonal
+                    Personal
                 </Text>
 
                 <Icon name='search' size={25} color={'#45B17F'} />

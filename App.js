@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import onBoarding from './src/auth/OnBoarding'
@@ -15,15 +15,22 @@ import PersonalList from './src/more/PersonalList';
 import AddService from './src/more/AddService';
 import Profile from './src/more/Profile'
 import ChangePassword from './src/more/ChangePassword';
+import ResetPassword from './src/more/ResetPassword';
 import Notification from './src/more/Notification';
+import ForgotPassword from './src/auth/ForgotPassword'
+import AddDoc from './src/dashboard/finance/AddDoc';
+import EditDoc from './src/dashboard/finance/EDitDoc';
+import SeeAllNews from './src/dashboard/SeeAllNews';
+import SeeAllProm from './src/dashboard/SeeAllProm';
 
 const Stack = createNativeStackNavigator();
-
 function App() {
-  LogBox.ignoreAllLogs();//Ignore all log notifications
+  LogBox.ignoreAllLogs();
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen screenOptions={{ headerShown: false }}
           name="Home" component={onBoarding} />
 
@@ -61,7 +68,25 @@ function App() {
           name="ChangePassword" component={ChangePassword} />
 
         <Stack.Screen screenOptions={{ headerShown: false }}
+          name="ResetPassword" component={ResetPassword} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
           name="Notification" component={Notification} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="ForgotPassword" component={ForgotPassword} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="AddDoc" component={AddDoc} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="EditDoc" component={EditDoc} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="SeeAllProm" component={SeeAllProm} />
+
+        <Stack.Screen screenOptions={{ headerShown: false }}
+          name="SeeAllNews" component={SeeAllNews} />
 
       </Stack.Navigator>
     </NavigationContainer>

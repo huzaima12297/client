@@ -1,10 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 import Images from '../themes/Images';
+import { useFocusEffect } from '@react-navigation/native';
 
 function Profile({ navigation }) {
+
+    const [name, setName] = useState('');
+    const [company, setCompanyName] = useState('No Company Found');
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getUserId()
+        }, [])
+    );
+
+    const getUserId = async () => {
+        const value = await AsyncStorage.getItem('name');
+        if (value != null) {
+            setName(value)
+        }
+        const valuee = await AsyncStorage.getItem('companyName');
+        if (valuee != null) {
+            setCompanyName(valuee)
+        }
+    }
+
+    const logout = () => {
+        Alert.alert(
+            "Logout",
+            "Are you sure?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => userLogout() }
+            ]
+        );
+    }
+
+    const userLogout = async () => {
+        await AsyncStorage.removeItem('userId');
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }],
+        });
+    }
+
     return (
         <>
             <View style={styles.view}>
@@ -34,8 +80,7 @@ function Profile({ navigation }) {
 
             <View style={{ marginHorizontal: 20, marginTop: 20 }}>
                 <Text style={{ color: 'black', fontWeight: "700" }}>
-                    John Smith
-                </Text>
+                    {name}                </Text>
                 <Text style={{ color: 'grey', fontSize: 12 }}>
                     Admin at AES Technology
                 </Text>
@@ -79,7 +124,7 @@ function Profile({ navigation }) {
                     Account Setting
                 </Text>
 
-                <TouchableOpacity onPress={() => navigation.navigate("ChangePassword")}
+                <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}
                     style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: 'black', paddingVertical: 15 }}>
                     <Text style={{ flex: 1 }}>
                         Edit Password
@@ -106,9 +151,10 @@ function Profile({ navigation }) {
                     <Icon size={20} color={'black'} name="chevron-forward-outline" />
                 </TouchableOpacity>
             </View>
-            <View style={{ borderWidth: 1, borderColor: 'red', borderRadius: 15, marginHorizontal: 20, marginTop: 40, alignItems: 'center', justifyContent: 'center', paddingVertical: 10 }}>
+            <TouchableOpacity onPress={logout}
+                style={{ borderWidth: 1, borderColor: 'red', borderRadius: 15, marginHorizontal: 20, marginTop: 40, alignItems: 'center', justifyContent: 'center', paddingVertical: 10 }}>
                 <Text style={{ color: 'red' }}>Log Out</Text>
-            </View>
+            </TouchableOpacity>
 
 
         </>

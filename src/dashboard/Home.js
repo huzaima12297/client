@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, FlatList, TouchableOpacity, Dimensions, BackHandler, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 import Images from '../themes/Images'
+import Api from '../Api'
+import moment from 'moment'
+import { useFocusEffect } from '@react-navigation/native';
+import { useBackHandler } from '@react-native-community/hooks'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   LineChart,
   BarChart,
@@ -13,6 +19,96 @@ import {
 } from "react-native-chart-kit";
 
 function Home({ navigation }) {
+
+  const [news, setNews] = useState([]);
+  const [promotions, setPromotions] = useState([]);
+  const [name, setName] = useState('');
+  const [company, setCompanyName] = useState('No Company Found');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getNews()
+      getPromotions()
+      getUserId()
+    }, [])
+  );
+
+  const getUserId = async () => {
+    const value = await AsyncStorage.getItem('name');
+    if (value != null) {
+      setName(value)
+    }
+    const valuee = await AsyncStorage.getItem('companyName');
+    if (valuee != null) {
+      setCompanyName(valuee)
+    }
+  }
+
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => null,
+  //         style: "cancel"
+  //       },
+  //       { text: "YES", onPress: () => BackHandler.exitApp() }
+  //     ]);
+  //     return true;
+  //   };
+
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     backAction
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
+
+
+  const handleBackButton = () => {
+    Alert.alert(
+      'Exit From App', 'Do you want to Exit From App?',
+      [{
+        text: 'Cancel', onPress: () => console.log('Cancel'),
+        style: 'cancel'
+      },
+      { text: 'OK', onPress: () => console.log("Cancel Pressed"), }
+      ], {
+      cancelable: false
+    })
+    return true;
+  }
+
+
+
+  const getNews = async () => {
+    try {
+      const response = await Api.get('/newsevents/get');
+      if (response.status == 200) {
+        setNews(response.data.data)
+        console.log(response.data.data)
+      } else {
+        alert('An Error Occured');
+      }
+    } catch (err) {
+      alert('An Error Occured');
+    }
+  }
+
+  const getPromotions = async () => {
+    try {
+      const response = await Api.get('/promotions');
+      if (response.status == 200) {
+        setPromotions(response.data.results)
+      } else {
+        alert('An Error Occured');
+      }
+    } catch (err) {
+      alert('An Error Occured');
+    }
+  }
+
   const DATA = [
     {
       id: 1,
@@ -125,8 +221,45 @@ function Home({ navigation }) {
       name: 'Finance',
       icon: "document-text-outline",
     },
-   
+
   ];
+
+  const pieData = [
+    {
+      name: "A Revenue",
+      population: 21500000,
+      color: "#DC143C",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "B Revenue",
+      population: 2800000,
+      color: "#f5c71a",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "C Revenue",
+      population: 2800000,
+      color: "#2e8b57",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+
+  ];
+
+  const chartConfig = {
+    backgroundGradientFrom: "red",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "black",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+  };
+
+
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
@@ -192,78 +325,48 @@ function Home({ navigation }) {
     </View>
   );
 
+  const renderItem10 = ({ item }) => (
+    <View style={{ borderRadius: 20, flexDirection: 'row', padding: 15 }}>
+      <Text>{item.id}.</Text>
+      <Text style={{ marginLeft: 30 }}>Debator A</Text>
+      <Text style={{ marginLeft: 60 }}>10 days</Text>
+
+    </View>
+  );
+
   const renderItemNews = ({ item }) => (
     <View style={[styles.item, { alignItems: 'center', justifyContent: 'center', width: 300, height: 150, borderRadius: 20 }]}>
-      <Image source={Images.dummy1} style={{ width: 300, height: 150, borderRadius: 20 }} />
-
+      <Image source={{
+        uri: item.photopath,
+      }}
+        style={{ width: 300, height: 150, borderRadius: 20 }} />
       <View style={{ position: 'absolute', bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.7)', width: 300, flexDirection: 'row' }}>
-        <Text style={{ color: 'white', padding: 5, flex: 1 }}>Name of event/ news</Text>
-        <Text style={{ color: 'white', padding: 5 }}>16 Mar 2021</Text>
+        <Text style={{ color: 'white', padding: 5, flex: 1 }}>{item.title}</Text>
+        <Text style={{ color: 'white', padding: 5 }}>{moment(item.eventdate).format("MMM Do YY")}</Text>
       </View>
     </View>
   );
 
   const renderItemPro = ({ item }) => (
     <View style={[styles.item, { alignItems: 'center', justifyContent: 'center', width: 300, height: 150, borderRadius: 20 }]}>
-      <Image source={Images.dummy2} style={{ width: 300, height: 150, borderRadius: 20 }} />
+      <Image source={{
+        uri: item.display_image,
+      }} style={{ width: 300, height: 150, borderRadius: 20 }} />
 
       <View style={{ position: 'absolute', bottom: 0, left: 0, backgroundColor: 'rgba(0,0,0,0.7)', width: 300, flexDirection: 'row' }}>
-        <Text style={{ color: 'white', padding: 5, flex: 1 }}>Name of event/ news</Text>
-        <Text style={{ color: 'white', padding: 5 }}>16 Mar 2021</Text>
+        <Text style={{ color: 'white', padding: 5, flex: 1 }}>{item.title}</Text>
+        <Text style={{ color: 'white', padding: 5 }}>{moment(item.updated_on).format("MMM Do YY")}</Text>
       </View>
     </View>
   );
 
-  const renderItem10 = ({ item }) => (
-    <View style={{ borderRadius: 20, flexDirection: 'row', padding: 15}}>
-        <Text>{item.id}.</Text>
-        <Text style={{marginLeft: 30}}>Debator A</Text>
-        <Text style={{marginLeft: 60}}>10 days</Text>
-
-    </View>
-  );
-
-  const pieData = [
-    {
-      name: "A Revenue",
-      population: 21500000,
-      color: "#DC143C",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "B Revenue",
-      population: 2800000,
-      color: "#f5c71a",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-    {
-      name: "C Revenue",
-      population: 2800000,
-      color: "#2e8b57",
-      legendFontColor: "#7F7F7F",
-      legendFontSize: 15
-    },
-
-  ];
-
-  const chartConfig = {
-    backgroundGradientFrom: "red",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "black",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}
       style={{ flex: 1, marginBottom: 10 }}>
       <View style={styles.header}>
         <Text style={styles.name}>
-          Smitiv Company
+          {company}
         </Text>
 
         <Icon name="notifications-outline" size={20} color={'#45B17F'} />
@@ -274,7 +377,7 @@ function Home({ navigation }) {
       <View style={{ marginTop: 50, marginHorizontal: 20 }}>
         <Text style={{ color: 'grey' }}>Welcome</Text>
         <Text style={{ color: 'black', fontWeight: "700", fontSize: 18, marginVertical: 3 }}>
-          Christophir Smith
+          {name}
         </Text>
         <Text style={{ color: 'grey', fontSize: 12 }}>Admit at AES Technology</Text>
       </View>
@@ -343,26 +446,31 @@ function Home({ navigation }) {
 
       <View style={styles.header}>
         <Text style={{ color: 'black', fontWeight: "700", fontSize: 16, flex: 1 }}>News & Events</Text>
-        <Text style={{ color: '#45B17F', fontSize: 13, fontWeight: "500" }}>See All</Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate('SeeAllNews')}>
+          <Text style={{ color: '#45B17F', fontSize: 13, fontWeight: "500" }}>See All</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={DATAXX}
+        data={news}
         renderItem={renderItemNews}
         keyExtractor={item => item.id}
       />
 
       <View style={styles.header}>
         <Text style={{ color: 'black', fontWeight: "700", fontSize: 16, flex: 1 }}>Promotion</Text>
-        <Text style={{ color: '#45B17F', fontSize: 13, fontWeight: "500" }}>See All</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SeeAllProm')}>
+          <Text style={{ color: '#45B17F', fontSize: 13, fontWeight: "500" }}>See All</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={DATAXX}
+        data={promotions}
         renderItem={renderItemPro}
         keyExtractor={item => item.id}
       />
@@ -448,7 +556,7 @@ function Home({ navigation }) {
       </View>
 
       <FlatList
-        style={{backgroundColor: 'white', borderWidth: 1, borderColor: 'lightgrey', marginHorizontal: 20, marginTop: 15, borderRadius: 15}}
+        style={{ backgroundColor: 'white', borderWidth: 1, borderColor: 'lightgrey', marginHorizontal: 20, marginTop: 15, borderRadius: 15 }}
         showsHorizontalScrollIndicator={false}
         data={DATAXXx}
         renderItem={renderItem10}

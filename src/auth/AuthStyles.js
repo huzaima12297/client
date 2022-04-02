@@ -54,6 +54,11 @@ export default StyleSheet.create({
     verificationText: {
         marginTop: 20,
     },
+    err: {
+        color: 'red',
+        fontSize: 12
+    },
+
     input: {
         textAlignVertical: 'top'
     },

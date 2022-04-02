@@ -103,6 +103,7 @@ function AddService({ navigation }) {
                         <Input placeholder='Email' />
 
                         <Input placeholder='Contact No #' />
+                        <Input placeholder='UAN Number' />
                         <Input placeholder='Company Address'
                             numberOfLines={5}
                             customInputStyle={Styles.input}
@@ -111,8 +112,10 @@ function AddService({ navigation }) {
                     </View>
                 </View>
 
+                <Buttom title={'Add Shareholder'} customStyle={{ marginVertical: 20 }} />
 
-                <View style={{ backgroundColor: 'white', marginTop: 20, paddingHorizontal: 10, marginHorizontal: 10 }}>
+
+                {/* <View style={{ backgroundColor: 'white', marginTop: 20, paddingHorizontal: 10, marginHorizontal: 10 }}>
                     <Input placeholder='UEN Number'
                     />
 
@@ -132,8 +135,7 @@ function AddService({ navigation }) {
                         options={['option 1', 'option 2']}
                     />
 
-                    <Buttom title={'Register Company'} customStyle={{marginVertical: 20}}/>
-                </View>
+                </View> */}
             </View>
 
             {show && (

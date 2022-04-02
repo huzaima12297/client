@@ -3,7 +3,7 @@ import Styles from './ComponentsStyles';
 import ModalDropdown from 'react-native-modal-dropdown';
 
 function Dropdown(props) {
-    const { defaultValue, options } = props
+    const { defaultValue, options, onSelectType } = props
 
     return (
         <ModalDropdown
@@ -13,6 +13,7 @@ function Dropdown(props) {
             options={options}
             dropdownStyle={{ height: -1 }}
             isFullWidth={true}
+            onSelect={onSelectType}
         />
     );
 }

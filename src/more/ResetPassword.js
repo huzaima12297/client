@@ -6,9 +6,7 @@ import Styles from '../auth/AuthStyles';
 import Button from '../components/Button';
 import Api from '../Api'
 
-function ChangePassword({ navigation, route }) {
-    const { Id } = route.params;
-
+function ChangePassword({ navigation }) {
     const [loader, setLoader] = useState(false);
 
     const [oldpassword, setOldPassword] = useState('');
@@ -98,7 +96,7 @@ function ChangePassword({ navigation, route }) {
             </View>
 
             <View style={styles.container}>
-                {/* <Input placeholder='Old Password'
+                <Input placeholder='Old Password'
                     customStyles={Styles.passwordInput}
                     secureTextEntry={!showPasswordold}
                     setShowPassword={() => setShowPasswordold(!showPasswordold)}
@@ -107,7 +105,7 @@ function ChangePassword({ navigation, route }) {
                     customInputStyle={Styles.centerContainer}
                     onChange={onSetPasswordold}
                 />
-                {errOldPassword && <Text style={Styles.err}>* Required</Text>} */}
+                {errOldPassword && <Text style={Styles.err}>* Required</Text>}
 
                 <Input placeholder='Password'
                     customStyles={Styles.passwordInput}
@@ -134,7 +132,7 @@ function ChangePassword({ navigation, route }) {
                 {matchPassword && !errConfirmPassword && password.length > 0 && confirmPassword.length > 0 && <Text style={Styles.err}>Password Not Matched</Text>}
 
                 <View></View>
-                <Button title={'Change Password'} customStyle={{ marginTop: 15 }} onPress={goToSignUp} loader={loader} />
+                <Button title={'Change Password'} customStyle={{ marginTop: 15 }} />
             </View>
 
         </ScrollView>

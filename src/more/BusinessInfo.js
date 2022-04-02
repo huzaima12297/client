@@ -12,6 +12,13 @@ import {
 
 function BusinessInfo({ navigation }) {
     const [index, setIndex] = React.useState(true);
+    const [uenNumber, setuenNumber] = React.useState("");
+    const [tax, setTax] = React.useState("");
+    const [home, setHome] = React.useState("");
+    const [address, setAddress] = React.useState("");
+    const [date, setDate] = React.useState("");
+    const [year, setYear] = React.useState("");
+    const [name, setName] = React.useState("");
 
     const [tableHead, setTableHead] = useState([
         'Email',
@@ -223,13 +230,12 @@ function BusinessInfo({ navigation }) {
     ]);
 
 
-
     return (
         <>
             <ScrollView>
                 <View style={styles.view}>
                     <Text style={{ color: 'black', fontSize: 16, fontWeight: "600", flex: 1 }}>
-                        Company | persnal Profile
+                        Company | personal Profile
                     </Text>
 
                     <Icon name="notifications-outline" color={'#45B17F'} size={20} />
@@ -253,7 +259,7 @@ function BusinessInfo({ navigation }) {
 
                 {index && <View style={{ marginHorizontal: 20 }}>
                     <Text style={{ color: 'black', fontSize: 16, fontWeight: "600", }}>
-                        Smiti Company
+                        {name}
                     </Text>
                     <Text style={{ color: 'grey', fontSize: 12 }}>
                         Technology industry
@@ -265,7 +271,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            1234 5678 09876
+                            {uenNumber}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -274,7 +280,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            1234 5678 09876
+                            {tax}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -283,7 +289,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            Singapore
+                            {home}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -292,7 +298,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            Sedu address house
+                            {address}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -301,7 +307,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            2020
+                            {date}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15 }}>
@@ -310,7 +316,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            2020
+                            {year}
                         </Text>
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 15, marginBottom: 25 }}>
@@ -319,7 +325,7 @@ function BusinessInfo({ navigation }) {
                         </Text>
 
                         <Text style={{ color: 'grey', fontSize: 14 }}>
-                            Smitiv Company
+                            {name}
                         </Text>
                     </View>
 

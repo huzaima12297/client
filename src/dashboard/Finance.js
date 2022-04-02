@@ -36,7 +36,7 @@ export default function Finance() {
       value: 'Document',
     },
     {
-      value: 'Profit & Loss',
+      value: 'Statitics        ',
     },
     {
       value: 'Balance Sheet',
@@ -146,6 +146,10 @@ export default function Finance() {
   const [modalSetting, setModalSetting] = useState(false);
   const [modalDownload, setModalDownload] = useState(false);
 
+  const setTabLine1 = (item) => {
+    setTabLine(item.value)
+  }
+
   function TextBox(val1, val2) {
     return (
       <View style={styles.headingBox}>
@@ -164,7 +168,7 @@ export default function Finance() {
         </View>
       </View>
       <View style={styles.TabRow}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{flex: 1}}>
           {tabs.map((item, index) => {
             return (
               <TouchableOpacity

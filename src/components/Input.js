@@ -13,16 +13,26 @@ function Input(props) {
         secureTextEntry,
         numberOfLines,
         value,
-        icon } = props
+        icon,
+        autoFocus,
+        inputRef,
+        returnKeyType,
+        onChange,
+        ...rest } = props
 
     return (
         <View style={[Styles.inputContainer, customStyles]}>
             <TextInput
                 placeholder={placeholder}
-                secureTextEntry={!secureTextEntry}
+                secureTextEntry={secureTextEntry}
                 style={customInputStyle}
                 value={value}
+                autoFocus={autoFocus}
                 numberOfLines={numberOfLines}
+                onChangeText={onChange}
+                ref={inputRef}
+                returnKeyType={returnKeyType}
+                {...rest}
             />
 
             {icon && <Icon name={"search"} color="grey" size={25} />}

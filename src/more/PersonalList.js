@@ -7,25 +7,47 @@ import All from './All'
 import Director from './Director';
 import Shareholder from './Shareholder';
 var ScrollableTabView = require('react-native-scrollable-tab-view');
-
-// const renderScene = SceneMap({
-//     first: New,
-//     second: Signed,
-//     third: Declined,
-//     forth: Docs,
-// });
-
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 function PersonalList({ navigation }) {
-    const layout = useWindowDimensions();
-    const [index, setIndex] = React.useState(true);
+    const [index, setIndex] = React.useState(0);
 
-    // const [routes] = React.useState([
-    //     { key: 'first', title: 'New' },
-    //     { key: 'second', title: 'Signed' },
-    //     { key: 'third', title: 'Declined' },
-    //     { key: 'forth', title: 'Previous Historial Docs' },
-    // ]);
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'first':
+                return <All />;
+            case 'second':
+                return <Director />;
+            case 'third':
+                return <Shareholder navigation={navigation} />;
+            default:
+                return null;
+        }
+    }
+
+    const [routes] = React.useState([
+        { key: 'first', title: 'All' },
+        { key: 'second', title: 'Directors' },
+        { key: 'third', title: 'Shared holders' },
+    ]);
+
+    const layout = useWindowDimensions();
+
+    const renderTabBar = props => (
+        <TabBar
+            {...props}
+            activeColor={'#45B17F'}
+            inactiveColor={'grey'}
+            indicatorStyle={{ backgroundColor: '#45B17F' }}
+            style={{ backgroundColor: 'white' }}
+            labelStyle={{
+                fontSize: 10,
+                upperCaseLabel: false,
+
+            }}
+        />
+    );
+
 
     return (
         <View style={{ flex: 1, marginBottom: 10 }}>
@@ -35,15 +57,24 @@ function PersonalList({ navigation }) {
                 </TouchableOpacity>
 
                 <Text style={{ color: 'black', fontSize: 16, fontWeight: "600" }}>
-                    Persoonel List
+                    Personal List
                 </Text>
             </View>
 
-            <ScrollableTabView>
+            {/* <ScrollableTabView>
                 <All tabLabel="All" />
                 <Director tabLabel="Director" />
                 <Shareholder tabLabel="Shareholder" />
-            </ScrollableTabView>
+            </ScrollableTabView> */}
+
+            <TabView
+                renderTabBar={renderTabBar}
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+            />
+
         </View>
     );
 }
